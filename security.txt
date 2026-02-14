@@ -1,0 +1,164 @@
+Projekt: StudyFlow
+Ziel: Die Anwendung gegen unbefugten Zugriff, Manipulation von Nutzerdaten und Missbrauch absichern.
+
+Umsetzung (Stand): .env.example, .gitignore (.env.local), supabase/rls.sql, src/app/api/ + src/middleware.ts, Zod (src/lib/validation.ts), Store-Validierung, Frontend-Hinweise (layout, store), src/app/error.tsx, DEPLOYMENT.md.
+
+ENVIRONMENT & SECRETS
+
+• Stelle sicher, dass KEINE geheimen Schlüssel im Frontend-Code stehen
+• Entferne alle Service Keys, Admin Keys oder privaten Tokens aus dem Code
+• Diese dürfen nur in Environment Variables liegen
+
+Unterscheidung:
+
+Variablen mit NEXT_PUBLIC_ dürfen im Browser sichtbar sein
+
+Alle anderen Variablen sind ausschließlich serverseitig zu verwenden
+
+Prüfen:
+
+.env.local darf nicht ins Git Repository committed werden
+
+.gitignore muss .env.local enthalten
+
+SUPABASE ROW LEVEL SECURITY (RLS)
+
+Für ALLE Tabellen mit Nutzerdaten muss RLS aktiviert werden:
+
+Tabellen:
+
+subjects
+
+topics
+
+study_sessions
+
+(später) pets, coins, pet_progress
+
+SQL ausführen:
+
+alter table subjects enable row level security;
+alter table topics enable row level security;
+alter table study_sessions enable row level security;
+
+Danach Policies erstellen:
+
+SELECT nur eigene Daten:
+create policy "Users can view their own data"
+on subjects for select
+using (auth.uid() = user_id);
+
+INSERT nur eigene Daten:
+create policy "Users can insert their own data"
+on subjects for insert
+with check (auth.uid() = user_id);
+
+UPDATE nur eigene Daten:
+create policy "Users can update their own data"
+on subjects for update
+using (auth.uid() = user_id);
+
+DELETE nur eigene Daten:
+create policy "Users can delete their own data"
+on subjects for delete
+using (auth.uid() = user_id);
+
+Diese Policies entsprechend auch für topics und study_sessions anlegen.
+
+API ROUTES ABSICHERN
+
+Alle schreibenden API-Routen müssen prüfen, ob ein User eingeloggt ist.
+
+Regel:
+KEINE Route darf Daten speichern, ohne vorher den authentifizierten User zu prüfen.
+
+Ablauf in jeder POST / PUT / DELETE Route:
+
+Supabase Server Client erstellen
+
+user = supabase.auth.getUser()
+
+Wenn kein user → Response 401 Unauthorized
+
+Beim Speichern immer user_id = user.id setzen
+
+Niemals user_id aus dem Frontend übernehmen
+
+INPUT VALIDIERUNG (ZOD)
+
+Installieren:
+npm install zod
+
+Alle Formulare müssen serverseitig validiert werden.
+
+Beispiel Study Session Schema:
+
+subject_id → gültige UUID
+
+duration → Zahl zwischen 5 und 300
+
+goal → Text max 200 Zeichen
+
+Ungültige Daten dürfen nicht in die Datenbank gelangen.
+
+FRONTEND SICHERHEIT
+
+• Keine sensiblen Daten im UI anzeigen (z.B. interne IDs anderer Nutzer)
+• Kein dangerouslySetInnerHTML mit ungeprüftem User-Input verwenden
+• Falls HTML von Usern erlaubt wird → vorher mit DOMPurify säubern
+
+COIN & GAMIFICATION SICHERHEIT
+
+Coins und Tier-Upgrades dürfen NICHT im Frontend berechnet werden.
+
+Regeln:
+• Coins werden ausschließlich serverseitig vergeben
+• Abschluss einer Lerneinheit ruft sichere API Route auf
+• Diese Route prüft:
+
+User ist eingeloggt
+
+Session gehört diesem User
+
+Session ist noch nicht belohnt worden
+• Danach werden Coins serverseitig erhöht
+
+Optional:
+Erstelle eine Datenbank-Funktion (RPC), die Coins sicher vergibt.
+
+RATE LIMITING VORBEREITEN
+
+API-Routen sollen später vor Spam geschützt werden.
+
+Vorbereitung:
+• Struktur so bauen, dass Middleware ergänzt werden kann
+• Besonders schützen:
+
+Login
+
+Session abschließen
+
+Coins vergeben
+
+Tiere füttern
+
+ERROR HANDLING
+
+• Keine technischen Fehlermeldungen an den Client senden
+• Stattdessen allgemeine Meldungen wie:
+"Ein Fehler ist aufgetreten"
+• Detaillierte Fehler nur im Server-Log
+
+DEPLOYMENT SICHERHEIT
+
+Vor Live-Gang prüfen:
+
+[ ] HTTPS aktiv
+[ ] .env Variablen nur im Hosting-Dashboard
+[ ] RLS für alle Tabellen aktiv
+[ ] API-Routen prüfen User
+[ ] Coins nur serverseitig berechnet
+[ ] Keine geheimen Keys im Frontend
+
+Ziel dieses Dokuments:
+StudyFlow soll so aufgebaut sein, dass Nutzer nur ihre eigenen Daten sehen und verändern können und Fortschritt oder Währung nicht manipuliert w

@@ -1,0 +1,253 @@
+📘 Konzept.txt – Lernplaner Web-App
+🧠 Projektname (Arbeitstitel)
+
+StudyFlow – Intelligente Lernplanung für strukturierte Schultage
+
+🎯 Ziel der App
+
+StudyFlow ist eine moderne Web-App, mit der Schüler:innen ihre Schultage präzise planen können.
+Nicht nur „Mathe lernen“, sondern konkret:
+
+Was lerne ich? Wann? Wie lange? Mit welchem Ziel?
+
+Die App soll helfen, Überforderung zu vermeiden, Fokus zu steigern und realistische Lernroutinen aufzubauen.
+
+👥 Zielgruppe
+
+Schüler:innen (ab ca. 12 Jahren)
+
+Oberstufe & Abiturvorbereitung
+
+Studierende im Grundstudium
+
+Menschen, die strukturiert lernen wollen
+
+💡 Kernidee
+
+Ein digitaler Lern-Tagesplaner, kombiniert mit:
+
+Zeitplanung
+
+Fach- & Themenverwaltung
+
+Lernmethoden
+
+Fortschritts-Tracking
+
+Die App fühlt sich an wie eine Mischung aus:
+📅 Kalender + ✅ To-Do-App + 🎯 Lerncoach
+
+🧩 Hauptfunktionen
+1️⃣ Dashboard (Startseite)
+
+Übersicht über den heutigen Tag:
+
+Begrüßung („Guten Morgen, Alex“)
+
+Heutige Lernsessions
+
+Gesamtlernzeit heute (z. B. „Geplant: 3h 20min“)
+
+Fortschrittsbalken des Tages
+
+Button: „Lerneinheit hinzufügen“
+
+2️⃣ Tagesplaner (Kernfunktion)
+
+Visuelle Tagesansicht ähnlich Google Kalender.
+
+Jede Lerneinheit enthält:
+
+📘 Fach (z. B. Mathe)
+
+🧠 Thema (z. B. „Bruchgleichungen“)
+
+⏱ Dauer (z. B. 45 Minuten)
+
+🛠 Lernart:
+
+Wiederholen
+
+Neues Thema
+
+Aufgaben üben
+
+Prüfungsvorbereitung
+
+🎯 Ziel der Session (Freitext)
+
+⭐ Priorität (niedrig / mittel / hoch)
+
+User kann:
+
+Einheiten per Drag & Drop verschieben
+
+Zeiten anpassen
+
+Einheiten abhaken („Erledigt“)
+
+3️⃣ Fächer- & Themenverwaltung
+
+Eigener Bereich zum Organisieren des Lernstoffs.
+
+Fächer anlegen
+
+Name (Mathe, Bio, Englisch…)
+
+Farbe (für Kalenderanzeige)
+
+Themen pro Fach
+
+Thema-Name
+
+Schwierigkeit (leicht / mittel / schwer)
+
+Prüfungsrelevanz (optional)
+
+Diese Themen können später schnell in Lernsessions eingefügt werden.
+
+4️⃣ Wochenübersicht
+
+Zeigt:
+
+Lernzeit pro Tag
+
+Lernzeit pro Fach
+
+Überlastete Tage visuell markiert
+
+Leere Tage mit Vorschlägen („Zeit für Wiederholung?“)
+
+5️⃣ Fortschritts-Tracking
+
+Statistiken wie:
+
+Lernzeit diese Woche
+
+Meistgelerntes Fach
+
+Erledigte vs. geplante Sessions
+
+Lernstreak (z. B. „5 Tage in Folge gelernt“)
+
+Visualisierung mit einfachen Diagrammen.
+
+6️⃣ Intelligente Hilfe (optional später)
+
+Später erweiterbar um:
+
+Vorschläge für Lernpausen
+
+Warnung bei zu vollen Tagen
+
+„Du hast 3 schwere Fächer hintereinander – tauschen?“
+
+🎨 Design-Richtung
+
+Stil: Modern, clean, ruhig, motivierend
+Gefühl: Nicht stressig – eher wie ein persönlicher Lernassistent
+
+UI-Eigenschaften
+
+Helles Design mit weichen Farben
+
+Abgerundete Karten (Cards)
+
+Viel Weißraum
+
+Icons für Fächer & Aktionen
+
+Fortschrittsbalken & kleine Animationen
+
+Inspiration
+
+Notion (Struktur)
+
+Google Calendar (Zeitplanung)
+
+Headspace (ruhige Farben & Motivation)
+
+🧱 Technischer Aufbau (für Cursor umsetzbar)
+Frontend
+
+React oder Next.js
+
+Tailwind CSS für modernes Design
+
+Komponenten:
+
+Sidebar (Navigation)
+
+Topbar (Datum, Nutzer)
+
+Cards für Lerneinheiten
+
+Kalender-/Timeline-Komponente
+
+Backend
+
+Firebase oder Supabase
+
+Speicherung von:
+
+Nutzer
+
+Fächer
+
+Themen
+
+Lerneinheiten
+
+Fortschrittsdaten
+
+Datenstruktur (vereinfacht)
+
+User
+
+id
+
+name
+
+email
+
+Subject (Fach)
+
+id
+
+user_id
+
+name
+
+color
+
+Topic (Thema)
+
+id
+
+subject_id
+
+name
+
+difficulty
+
+StudySession (Lerneinheit)
+
+id
+
+user_id
+
+subject_id
+
+topic_id
+
+date
+
+start_time
+
+duration
+
+type
+
+goal
+
+completed (true/false)
