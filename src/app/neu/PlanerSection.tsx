@@ -42,39 +42,23 @@ const ENERGY_OPTIONS: { value: EnergyLevel; label: string; color: string; bg: st
 ];
 
 const SUBJECT_COLORS = [
-  "#88d4ab", // Grün
-  "#a8e6cf", // Mint
-  "#b5e8f0", // Himmelblau
-  "#93c5fd", // Hellblau
-  "#3b82f6", // Blau
-  "#d4c5f9", // Lavendel
-  "#a78bfa", // Violett
-  "#f9c5d1", // Rosa
-  "#fca5a5", // Rot
-  "#ffdab9", // Pfirsich
-  "#fb923c", // Orange
-  "#fde047", // Gelb
-  "#2dd4bf", // Türkis
-  "#f472b6", // Pink
-  "#94a3b8", // Grau
+  "#88d4ab", "#a8e6cf", "#b5e8f0", "#93c5fd", "#3b82f6", "#d4c5f9", "#a78bfa",
+  "#f9c5d1", "#fca5a5", "#ffdab9", "#fb923c", "#fde047", "#2dd4bf", "#f472b6", "#94a3b8",
 ];
 
-export default function PlanerPage() {
+export function PlanerSection() {
   const {
     subjects,
     topics,
     getSessionsForDate,
     getSubjectById,
     getTopicById,
-    addSession,
     updateSession,
     deleteSession,
     checkAchievements,
   } = useStore();
 
-  const [selectedDate, setSelectedDate] = useState(() =>
-    format(new Date(), "yyyy-MM-dd")
-  );
+  const [selectedDate, setSelectedDate] = useState(() => format(new Date(), "yyyy-MM-dd"));
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [feedbackSessionId, setFeedbackSessionId] = useState<string | null>(null);
@@ -85,7 +69,6 @@ export default function PlanerPage() {
 
   const sessions = getSessionsForDate(selectedDate);
 
-  // URL: ?add=1 or ?date=YYYY-MM-DD
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
@@ -95,10 +78,10 @@ export default function PlanerPage() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6 px-0 sm:space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div>
         <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-          <h1 className="text-xl font-semibold text-study-ink sm:text-2xl">Tagesplaner</h1>
+          <h2 className="text-lg font-semibold text-study-ink sm:text-xl">Tagesplaner</h2>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
             <input
               type="date"
@@ -118,7 +101,7 @@ export default function PlanerPage() {
             </button>
           </div>
         </div>
-        <p className="mt-1 text-sm text-study-soft sm:text-base">
+        <p className="mt-1 text-sm text-study-soft">
           Plane deine Lerneinheiten mit Uhrzeit, Dauer und Energie-Level.
         </p>
       </div>
@@ -174,11 +157,8 @@ export default function PlanerPage() {
                             className="h-2.5 w-2.5 shrink-0 rounded-full"
                             style={{
                               backgroundColor:
-                                s.energy_level === "low"
-                                  ? "#22c55e"
-                                  : s.energy_level === "medium"
-                                    ? "#f59e0b"
-                                    : "#ef4444",
+                                s.energy_level === "low" ? "#22c55e"
+                                  : s.energy_level === "medium" ? "#f59e0b" : "#ef4444",
                             }}
                             title={s.energy_level === "low" ? "Leicht" : s.energy_level === "medium" ? "Mittel" : "Schwer"}
                           />
@@ -203,17 +183,11 @@ export default function PlanerPage() {
                             className="rounded px-1.5 py-0.5 text-[10px] font-medium"
                             style={{
                               backgroundColor:
-                                s.energy_level === "low"
-                                  ? "#dcfce7"
-                                  : s.energy_level === "medium"
-                                    ? "#fef3c7"
-                                    : "#fee2e2",
+                                s.energy_level === "low" ? "#dcfce7"
+                                  : s.energy_level === "medium" ? "#fef3c7" : "#fee2e2",
                               color:
-                                s.energy_level === "low"
-                                  ? "#15803d"
-                                  : s.energy_level === "medium"
-                                    ? "#b45309"
-                                    : "#b91c1c",
+                                s.energy_level === "low" ? "#15803d"
+                                  : s.energy_level === "medium" ? "#b45309" : "#b91c1c",
                             }}
                           >
                             {s.energy_level === "low" ? "Leicht" : s.energy_level === "medium" ? "Mittel" : "Schwer"}
@@ -278,8 +252,6 @@ export default function PlanerPage() {
                 setShowCoinEarned(true);
                 setCoinBreakdown(rewardBreakdown);
               }
-              
-              // Check achievements
               const achievementResult = checkAchievements();
               if (achievementResult.newlyUnlocked.length > 0) {
                 setNewAchievements(achievementResult.newlyUnlocked);
@@ -292,8 +264,6 @@ export default function PlanerPage() {
                 setShowCoinEarned(true);
                 setCoinBreakdown(rewardBreakdown);
               }
-              
-              // Check achievements
               const achievementResult = checkAchievements();
               if (achievementResult.newlyUnlocked.length > 0) {
                 setNewAchievements(achievementResult.newlyUnlocked);
@@ -311,10 +281,7 @@ export default function PlanerPage() {
           onClose={() => {
             setShowCoinEarned(false);
             setCoinBreakdown(undefined);
-            // Show achievements after coins
-            if (newAchievements.length > 0) {
-              setCurrentAchievementIndex(0);
-            }
+            if (newAchievements.length > 0) setCurrentAchievementIndex(0);
           }}
         />
       )}
@@ -400,7 +367,7 @@ function SessionForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!subjectId || !user) return;
-    if (!energyLevel && !editSession) return; // bei neuer Session verpflichtend
+    if (!energyLevel && !editSession) return;
     if (editSession) {
       updateSession(editSession.id, {
         subjectId,
@@ -432,15 +399,13 @@ function SessionForm({
 
   return (
     <div className="card border-2 border-study-sage/30">
-      <h2 className="mb-4 text-lg font-medium text-study-ink">
+      <h3 className="mb-4 text-lg font-medium text-study-ink">
         {editSession ? "Lerneinheit bearbeiten" : "Neue Lerneinheit"}
-      </h2>
+      </h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-sm font-medium text-study-ink">
-              Fach
-            </label>
+            <label className="mb-1 block text-sm font-medium text-study-ink">Fach</label>
             <select
               value={subjectId}
               onChange={(e) => {
@@ -452,9 +417,7 @@ function SessionForm({
             >
               <option value="">— wählen —</option>
               {subjects.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
+                <option key={s.id} value={s.id}>{s.name}</option>
               ))}
             </select>
             <button
@@ -513,9 +476,7 @@ function SessionForm({
             )}
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-study-ink">
-              Thema (optional)
-            </label>
+            <label className="mb-1 block text-sm font-medium text-study-ink">Thema (optional)</label>
             <select
               value={topicId}
               onChange={(e) => setTopicId(e.target.value)}
@@ -523,67 +484,51 @@ function SessionForm({
             >
               <option value="">— wählen —</option>
               {topicsForSubject.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.name}
-                </option>
+                <option key={t.id} value={t.id}>{t.name}</option>
               ))}
             </select>
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
-            <label className="mb-1 block text-sm font-medium text-study-ink">
-              Start
-            </label>
+            <label className="mb-1 block text-sm font-medium text-study-ink">Start</label>
             <select
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               className="w-full rounded-xl border border-study-border bg-study-card px-3 py-2 text-study-ink"
             >
               {TIME_SLOTS.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
+                <option key={t} value={t}>{t}</option>
               ))}
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-study-ink">
-              Dauer
-            </label>
+            <label className="mb-1 block text-sm font-medium text-study-ink">Dauer</label>
             <select
               value={duration}
               onChange={(e) => setDuration(Number(e.target.value))}
               className="w-full rounded-xl border border-study-border bg-study-card px-3 py-2 text-study-ink"
             >
               {DURATIONS.map((d) => (
-                <option key={d} value={d}>
-                  {formatDuration(d)}
-                </option>
+                <option key={d} value={d}>{formatDuration(d)}</option>
               ))}
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-study-ink">
-              Lernart
-            </label>
+            <label className="mb-1 block text-sm font-medium text-study-ink">Lernart</label>
             <select
               value={type}
               onChange={(e) => setType(e.target.value as SessionType)}
               className="w-full rounded-xl border border-study-border bg-study-card px-3 py-2 text-study-ink"
             >
               {SESSION_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
+                <option key={t} value={t}>{t}</option>
               ))}
             </select>
           </div>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-study-ink">
-            Ziel der Session
-          </label>
+          <label className="mb-1 block text-sm font-medium text-study-ink">Ziel der Session</label>
           <input
             type="text"
             value={goal}
@@ -593,18 +538,14 @@ function SessionForm({
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-study-ink">
-            Priorität
-          </label>
+          <label className="mb-1 block text-sm font-medium text-study-ink">Priorität</label>
           <select
             value={priority}
             onChange={(e) => setPriority(e.target.value as Priority)}
             className="w-full rounded-xl border border-study-border bg-study-card px-3 py-2 text-study-ink"
           >
             {PRIORITIES.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
+              <option key={p} value={p}>{p}</option>
             ))}
           </select>
         </div>

@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      { source: "/planer", destination: "/neu?tab=planer", permanent: false },
+      { source: "/faecher", destination: "/neu?tab=faecher", permanent: false },
+    ];
+  },
   // PWA Support
   async headers() {
     const headers = [

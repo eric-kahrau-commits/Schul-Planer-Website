@@ -18,6 +18,9 @@
     "react-dom": "^18.3.1",
     "zod": "^4.3.6"
   },
+  "overrides": {
+    "caniuse-lite": "1.0.30001523"
+  },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",

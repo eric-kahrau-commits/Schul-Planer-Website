@@ -90,15 +90,6 @@ html {
   }
 }
 
-/* Space for mobile bottom navigation; reset on desktop */
-.pb-bottom-nav {
-  padding-bottom: calc(5rem + var(--safe-area-inset-bottom));
-}
-@media (min-width: 768px) {
-  .pb-bottom-nav {
-    padding-bottom: 0;
-  }
-}
 
 /* Progress bar animation */
 @keyframes progress-fill {

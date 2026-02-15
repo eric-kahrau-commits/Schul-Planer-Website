@@ -71,7 +71,7 @@ export function InstallPrompt() {
   }
 
   return (
-    <div className="fixed bottom-[calc(5rem+1rem+env(safe-area-inset-bottom,0px))] left-1/2 z-50 -translate-x-1/2 transform md:bottom-4 md:left-auto md:right-4 md:translate-x-0">
+    <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 transform md:left-auto md:right-4 md:translate-x-0">
       <div className="card mx-3 flex flex-col gap-3 shadow-xl md:mx-0 md:max-w-sm">
         <div className="flex items-start gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-study-sage text-white">

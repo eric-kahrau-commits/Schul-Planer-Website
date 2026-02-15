@@ -138,7 +138,7 @@ export default function DashboardPage() {
           {t.dashboard.sessionsToday}
         </h2>
         <Link
-          href="/planer?add=1"
+          href="/neu?tab=planer&add=1"
           className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-study-sage px-4 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-study-accent-hover sm:w-auto sm:py-2.5"
         >
           <svg
@@ -162,7 +162,7 @@ export default function DashboardPage() {
         <div className="card border-dashed text-center text-study-soft">
           <p className="mb-4">{t.dashboard.noSessions}</p>
           <Link
-            href="/planer?add=1"
+            href="/neu?tab=planer&add=1"
             className="inline-flex items-center gap-2 rounded-xl bg-study-mint/50 px-4 py-2 text-study-ink hover:bg-study-mint"
           >
             {t.dashboard.addSession}
@@ -234,7 +234,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <Link
-                    href={`/planer?date=${s.date}`}
+                    href={`/neu?tab=planer&date=${s.date}`}
                     className="self-start text-sm text-study-sage hover:underline sm:self-center"
                   >
                     Bearbeiten
@@ -352,7 +352,7 @@ export default function DashboardPage() {
         <div className="card border-study-sky/50 bg-study-sky/10">
           <p className="text-sm text-study-ink sm:text-base">
             <strong>Tipp:</strong> Lege zuerst unter{" "}
-            <Link href="/faecher" className="text-study-sage underline">
+            <Link href="/neu?tab=faecher" className="text-study-sage underline">
               Fächer & Themen
             </Link>{" "}
             deine Fächer an, dann kannst du sie im Tagesplaner auswählen.

@@ -5,6 +5,7 @@ export const translations = {
     // Navigation
     nav: {
       dashboard: "Dashboard",
+      neu: "New",
       dayPlanner: "Day Planner",
       calendar: "Calendar",
       subjects: "Subjects & Topics",
@@ -307,6 +308,7 @@ export const translations = {
   de: {
     nav: {
       dashboard: "Dashboard",
+      neu: "Neu",
       dayPlanner: "Tagesplaner",
       calendar: "Kalender",
       subjects: "Fächer & Themen",
@@ -559,6 +561,7 @@ export const translations = {
   fr: {
     nav: {
       dashboard: "Tableau de bord",
+      neu: "Nouveau",
       dayPlanner: "Planificateur quotidien",
       calendar: "Calendrier",
       subjects: "Matières et sujets",

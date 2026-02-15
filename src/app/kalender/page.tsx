@@ -46,7 +46,7 @@ export default function KalenderPage() {
 
   const handleAddDateSubmit = () => {
     setShowAddModal(false);
-    router.push(`/planer?add=1&date=${addDate}`);
+    router.push(`/neu?tab=planer&add=1&date=${addDate}`);
   };
 
   const weekStart = startOfWeek(current, { weekStartsOn: 1 });
@@ -157,7 +157,7 @@ export default function KalenderPage() {
               <div className="py-8 text-center text-study-soft">
                 <p className="mb-3">Keine Lerneinheiten an diesem Tag.</p>
                 <Link
-                  href={`/planer?add=1&date=${format(current, "yyyy-MM-dd")}`}
+                  href={`/neu?tab=planer&add=1&date=${format(current, "yyyy-MM-dd")}`}
                   className="inline-flex items-center gap-2 rounded-xl bg-study-mint/50 px-4 py-2 text-study-ink hover:bg-study-mint"
                 >
                   Lerneinheit hinzufügen
@@ -171,7 +171,7 @@ export default function KalenderPage() {
                   return (
                     <li key={s.id}>
                       <Link
-                        href={`/planer?date=${s.date}`}
+                        href={`/neu?tab=planer&date=${s.date}`}
                         className="flex items-center gap-3 rounded-xl border border-study-border bg-study-card p-3 shadow-sm transition-shadow hover:shadow-md"
                         style={{ borderLeftWidth: 4, borderLeftColor: subject?.color ?? "#88d4ab" }}
                       >
@@ -189,7 +189,7 @@ export default function KalenderPage() {
             )}
             <p className="mt-4 text-center">
               <Link
-                href={`/planer?date=${format(current, "yyyy-MM-dd")}`}
+                href={`/neu?tab=planer&date=${format(current, "yyyy-MM-dd")}`}
                 className="text-sm text-study-sage hover:underline"
               >
                 Im Tagesplaner bearbeiten →
@@ -220,7 +220,7 @@ export default function KalenderPage() {
                   }`}
                 >
                   <Link
-                    href={`/planer?date=${dateStr}`}
+                    href={`/neu?tab=planer&date=${dateStr}`}
                     className={`mb-2 block rounded-lg px-2 py-1 text-center text-xs font-medium ${
                       isToday(d) ? "text-study-sage" : "text-study-ink"
                     } hover:bg-study-mint/30`}
@@ -233,7 +233,7 @@ export default function KalenderPage() {
                       return (
                         <Link
                           key={s.id}
-                          href={`/planer?date=${dateStr}`}
+                          href={`/neu?tab=planer&date=${dateStr}`}
                           className="block truncate rounded border-l-2 px-1.5 py-0.5 text-[10px] sm:text-xs"
                           style={{ borderLeftColor: subject?.color ?? "#88d4ab" }}
                         >
@@ -275,7 +275,7 @@ export default function KalenderPage() {
                   } ${today ? "ring-1 ring-study-sage ring-inset" : ""}`}
                 >
                   <Link
-                    href={`/planer?date=${dateStr}`}
+                    href={`/neu?tab=planer&date=${dateStr}`}
                     className={`mb-1 block text-center text-sm font-medium ${
                       today ? "text-study-sage" : inMonth ? "text-study-ink" : "text-study-soft"
                     } hover:underline`}
@@ -291,7 +291,7 @@ export default function KalenderPage() {
                             return (
                               <Link
                                 key={s.id}
-                                href={`/planer?date=${dateStr}`}
+                                href={`/neu?tab=planer&date=${dateStr}`}
                                 className="block truncate rounded px-1 py-0.5 text-[10px]"
                                 style={{
                                   backgroundColor: (subject?.color ?? "#88d4ab") + "30",
@@ -304,7 +304,7 @@ export default function KalenderPage() {
                           })}
                           {daySess.length > 2 && (
                             <Link
-                              href={`/planer?date=${dateStr}`}
+                              href={`/neu?tab=planer&date=${dateStr}`}
                               className="block px-1 text-[10px] text-study-soft hover:underline"
                             >
                               +{daySess.length - 2}

@@ -5,34 +5,20 @@ import type { Difficulty } from "@/lib/types";
 import { useEffect, useState } from "react";
 
 const COLORS = [
-  "#88d4ab", // Grün
-  "#a8e6cf", // Mint
-  "#b5e8f0", // Himmelblau
-  "#93c5fd", // Hellblau
-  "#3b82f6", // Blau
-  "#d4c5f9", // Lavendel
-  "#a78bfa", // Violett
-  "#f9c5d1", // Rosa
-  "#fca5a5", // Rot
-  "#ffdab9", // Pfirsich
-  "#fb923c", // Orange
-  "#fde047", // Gelb
-  "#2dd4bf", // Türkis
-  "#f472b6", // Pink
-  "#94a3b8", // Grau
+  "#88d4ab", "#a8e6cf", "#b5e8f0", "#93c5fd", "#3b82f6", "#d4c5f9", "#a78bfa",
+  "#f9c5d1", "#fca5a5", "#ffdab9", "#fb923c", "#fde047", "#2dd4bf", "#f472b6", "#94a3b8",
 ];
 
 const DIFFICULTIES: Difficulty[] = ["leicht", "mittel", "schwer"];
 
-export default function FaecherPage() {
+export function FaecherSection() {
   const {
     subjects,
     topics,
+    user,
     addSubject,
-    updateSubject,
-    deleteSubject,
     addTopic,
-    updateTopic,
+    deleteSubject,
     deleteTopic,
   } = useStore();
   const [showSubjectForm, setShowSubjectForm] = useState(false);
@@ -49,9 +35,6 @@ export default function FaecherPage() {
     topics: topics.filter((t) => t.subjectId === s.id),
   }));
 
-  const { user } = useStore();
-
-  // URL: ?add=subject oder ?add=topic öffnet das jeweilige Formular
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
@@ -90,12 +73,12 @@ export default function FaecherPage() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6 px-0 sm:space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div>
         <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-          <h1 className="text-xl font-semibold text-study-ink sm:text-2xl">
+          <h2 className="text-lg font-semibold text-study-ink sm:text-xl">
             Fächer & Themen
-          </h1>
+          </h2>
           <div className="flex gap-2">
             <button
               type="button"
@@ -113,21 +96,17 @@ export default function FaecherPage() {
             </button>
           </div>
         </div>
-        <p className="mt-1 text-sm text-study-soft sm:text-base">
+        <p className="mt-1 text-sm text-study-soft">
           Organisiere hier deine Fächer und Themen. Du kannst sie im Tagesplaner schnell auswählen.
         </p>
       </div>
 
       {showSubjectForm && (
         <div className="card border-2 border-study-sage/30">
-          <h2 className="mb-4 text-lg font-medium text-study-ink">
-            Neues Fach
-          </h2>
+          <h3 className="mb-4 text-lg font-medium text-study-ink">Neues Fach</h3>
           <form onSubmit={handleAddSubject} className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium text-study-ink">
-                Name
-              </label>
+              <label className="mb-1 block text-sm font-medium text-study-ink">Name</label>
               <input
                 type="text"
                 value={newSubjectName}
@@ -137,9 +116,7 @@ export default function FaecherPage() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-study-ink">
-                Farbe (für Kalender)
-              </label>
+              <label className="mb-1 block text-sm font-medium text-study-ink">Farbe (für Kalender)</label>
               <div className="flex flex-wrap gap-2">
                 {COLORS.map((c) => (
                   <button
@@ -149,8 +126,7 @@ export default function FaecherPage() {
                     className="h-8 w-8 rounded-full border-2 transition-transform hover:scale-110"
                     style={{
                       backgroundColor: c,
-                      borderColor:
-                        newSubjectColor === c ? "#2d3748" : "transparent",
+                      borderColor: newSubjectColor === c ? "#2d3748" : "transparent",
                     }}
                   />
                 ))}
@@ -177,14 +153,10 @@ export default function FaecherPage() {
 
       {showTopicForm && (
         <div className="card border-2 border-study-sage/30">
-          <h2 className="mb-4 text-lg font-medium text-study-ink">
-            Neues Thema
-          </h2>
+          <h3 className="mb-4 text-lg font-medium text-study-ink">Neues Thema</h3>
           <form onSubmit={handleAddTopic} className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium text-study-ink">
-                Fach
-              </label>
+              <label className="mb-1 block text-sm font-medium text-study-ink">Fach</label>
               <select
                 value={selectedSubjectId ?? ""}
                 onChange={(e) => setSelectedSubjectId(e.target.value || null)}
@@ -193,16 +165,12 @@ export default function FaecherPage() {
               >
                 <option value="">— wählen —</option>
                 {subjects.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.name}
-                  </option>
+                  <option key={s.id} value={s.id}>{s.name}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-study-ink">
-                Thema-Name
-              </label>
+              <label className="mb-1 block text-sm font-medium text-study-ink">Thema-Name</label>
               <input
                 type="text"
                 value={newTopicName}
@@ -212,20 +180,14 @@ export default function FaecherPage() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-study-ink">
-                Schwierigkeit
-              </label>
+              <label className="mb-1 block text-sm font-medium text-study-ink">Schwierigkeit</label>
               <select
                 value={newTopicDifficulty}
-                onChange={(e) =>
-                  setNewTopicDifficulty(e.target.value as Difficulty)
-                }
+                onChange={(e) => setNewTopicDifficulty(e.target.value as Difficulty)}
                 className="w-full rounded-xl border border-study-border bg-study-card px-3 py-2 text-study-ink"
               >
                 {DIFFICULTIES.map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
+                  <option key={d} value={d}>{d}</option>
                 ))}
               </select>
             </div>
@@ -276,16 +238,16 @@ export default function FaecherPage() {
           topicsBySubject.map((s) => (
             <div key={s.id} className="card">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex min-w-0 items-center gap-3">
                   <div
                     className="h-4 w-4 shrink-0 rounded-full"
                     style={{ backgroundColor: s.color }}
                   />
-                  <h2 className="text-base font-medium text-study-ink truncate sm:text-lg">
+                  <h3 className="truncate text-base font-medium text-study-ink sm:text-lg">
                     {s.name}
-                  </h2>
+                  </h3>
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="flex shrink-0 items-center gap-2">
                   <button
                     type="button"
                     onClick={() => {
@@ -315,9 +277,9 @@ export default function FaecherPage() {
                       key={t.id}
                       className="flex flex-col gap-1 rounded-lg bg-study-cream/50 px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
                     >
-                      <span className="text-study-ink min-w-0 truncate">{t.name}</span>
+                      <span className="min-w-0 truncate text-study-ink">{t.name}</span>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-study-soft shrink-0">
+                        <span className="shrink-0 text-xs text-study-soft">
                           {t.difficulty}
                           {t.examRelevant ? " · Prüfung" : ""}
                         </span>

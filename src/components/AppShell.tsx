@@ -94,23 +94,14 @@ function SettingsIcon({ className }: { className?: string }) {
   );
 }
 
-function MoreIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  );
-}
-
 /* ---------------- Navigation Items ---------------- */
 
 function useNavItems() {
   const { t } = useLanguage();
   return useMemo(() => [
     { href: "/", label: t.nav.dashboard, icon: HomeIcon },
-    { href: "/planer", label: t.nav.dayPlanner, icon: CalendarIcon },
+    { href: "/neu", label: t.nav.neu, icon: CalendarIcon },
     { href: "/kalender", label: t.nav.calendar, icon: CalendarGridIcon },
-    { href: "/faecher", label: t.nav.subjects, icon: BookIcon },
     { href: "/woche", label: t.nav.week, icon: ChartIcon },
     { href: "/fortschritt", label: t.nav.progress, icon: ProgressIcon },
     { href: "/tierwelt", label: t.nav.pets, icon: PawIcon },
@@ -133,14 +124,6 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   const closeSidebar = () => setSidebarOpen(false);
   const openSidebar = () => setSidebarOpen(true);
-
-  /* Bottom nav: nur auf Mobil, 5 Einträge */
-  const bottomNavItems = useMemo(() => [
-    { href: "/", label: t.nav.dashboard, icon: HomeIcon },
-    { href: "/planer", label: t.nav.dayPlanner, icon: CalendarIcon },
-    { href: "/kalender", label: t.nav.calendar, icon: CalendarGridIcon },
-    { href: "/tierwelt", label: t.nav.pets, icon: PawIcon },
-  ], [t]);
 
   return (
     <div className="flex h-screen min-h-screen">
@@ -233,43 +216,8 @@ export function AppShell({ children }: { children: ReactNode }) {
           </span>
         </header>
 
-        <div className="min-w-0 bg-study-cream p-4 pb-bottom-nav sm:p-6 md:pb-6">{children}</div>
+        <div className="min-w-0 bg-study-cream p-4 sm:p-6">{children}</div>
       </main>
-
-      {/* Mobile Bottom Navigation */}
-      <nav
-        aria-label="Hauptbereiche"
-        className="fixed bottom-0 left-0 right-0 z-30 flex items-center justify-around border-t border-study-border bg-study-card/95 backdrop-blur md:hidden"
-        style={{ paddingBottom: "max(0.5rem, var(--safe-area-inset-bottom))" }}
-      >
-        {bottomNavItems.map(({ href, label, icon: Icon }) => {
-          const baseHref = href.split("?")[0];
-          const isActive = pathname === baseHref || pathname.startsWith(baseHref + "/");
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex min-h-[44px] min-w-[44px] flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[10px] transition-colors active:bg-study-mint/30 ${
-                isActive ? "text-study-sage font-medium" : "text-study-soft"
-              }`}
-            >
-              <Icon className="h-6 w-6 shrink-0" />
-              <span className="truncate max-w-[72px]">{label}</span>
-            </Link>
-          );
-        })}
-        <button
-          type="button"
-          onClick={openSidebar}
-          aria-label={t.common.openMenu}
-          className={`flex min-h-[44px] min-w-[44px] flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[10px] transition-colors active:bg-study-mint/30 ${
-            sidebarOpen ? "text-study-sage font-medium" : "text-study-soft"
-          }`}
-        >
-          <MoreIcon className="h-6 w-6 shrink-0" />
-          <span className="truncate max-w-[72px]">{t.nav.more}</span>
-        </button>
-      </nav>
 
       <NotificationManager />
       <PushNotificationManager />
